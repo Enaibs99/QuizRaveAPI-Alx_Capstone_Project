@@ -14,7 +14,7 @@ from .permissions import IsCreatorOrReadOnly, CanTakeQuiz, IsAttemptOwner
 
 
 def home(request):
-    return HttpResponse("Welcome to my site!")
+    return HttpResponse("Welcome to QuizRave API")
 
 
 # Authentication Views
