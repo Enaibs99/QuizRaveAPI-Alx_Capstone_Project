@@ -15,9 +15,20 @@ class Quiz(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name_plural = "Quizzes"
 
     def __str__(self):
         return self.title
+    
+    @property
+    def total_questions(self):
+        return self.questions.count()
+    
+    @property
+    def total_points(self):
+        return self.questions.aggregate( total=models.Sum('points'))['total'] or 0
+
+
 
 class Question(models.Model):
     QUESTION_TYPES = [
@@ -38,7 +49,13 @@ class Question(models.Model):
         unique_together = ['quiz', 'order']
 
     def __str__(self):
-        return f"{self.quiz.title} - Q{self.order}"
+        return f"{self.quiz.title} - Q{self.order} {self.question_text[:50]}..."
+    
+    def save(self, *args, **kwargs):
+        if not self.order:
+            last_question = self.quiz.questions.order_by('order').last()
+            self.order = (last_question.order + 1) if last_question else 1
+        super().save(*args, **kwargs)
     
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
@@ -50,7 +67,7 @@ class Answer(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return f"{self.question} - {self.answer_text[:50]}"
+        return f"{self.question} - {self.answer_text[:30]}{'...' if len(self.answer_text) > 30 else ''}"
 
 class QuizAttempt(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quiz_attempts')
@@ -64,7 +81,19 @@ class QuizAttempt(models.Model):
         ordering = ['-started_at']
 
     def __str__(self):
-        return f"{self.user.username} - {self.quiz.title}"
+        status = "Completed" if self.completed_at else "In Progress"
+        return f"{self.user.username} - {self.quiz.title} ({status})"
+    
+    @property
+    def is_completed(self):
+        return self.completed_at is not None
+    
+    @property
+    def percentage_score(self):
+        if self.score is not None and self.total_points:
+            return round((self.score / self.total_points) * 100, 2)
+        return 0
+
     
 class UserResponse(models.Model):
     attempt = models.ForeignKey(QuizAttempt, on_delete=models.CASCADE, related_name='responses')
@@ -78,6 +107,12 @@ class UserResponse(models.Model):
 
     def __str__(self):
         return f"{self.attempt.user.username} - {self.question}"
+    
+    def save(self, *args, **kwargs):
+        # Automatically calculate if answer is correct
+        if self.question.question_type in ['MC', 'TF'] and self.selected_answer:
+            self.is_correct = self.selected_answer.is_correct
+        super().save(*args, **kwargs)
     
 
 
