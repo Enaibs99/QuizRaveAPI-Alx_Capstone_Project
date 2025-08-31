@@ -107,15 +107,14 @@ A Django REST Framework-based quiz application that allows users to create, mana
 ## API Usage Examples
 
 ### 1. User Registration
-```bash
+``` bash
 curl -X POST http://localhost:8000/api/auth/register/ \
   -H "Content-Type: application/json" \
   -d '{
-    "username": "johndoe",
-    "email": "john@example.com",
-    "password": "securepass123"
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "testpass123"
   }'
-```
 
 ### 2. User Login
 ```bash
@@ -128,7 +127,7 @@ curl -X POST http://localhost:8000/api/auth/login/ \
 ```
 
 Response:
-```json
+``` json
 {
   "token": "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b",
   "user": {
