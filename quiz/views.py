@@ -7,9 +7,15 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from .models import Quiz, Question, Answer, QuizAttempt, UserResponse
 from .serializers import  (QuizListSerializer, QuizDetailSerializer, QuizCreateSerializer,QuestionSerializer, QuestionCreateSerializer,QuizAttemptSerializer, SubmitAnswerSerializer, UserSerializer)
 from .permissions import IsCreatorOrReadOnly, CanTakeQuiz, IsAttemptOwner
+
+
+def home(request):
+    return HttpResponse("Welcome to my site!")
+
 
 # Authentication Views
 @api_view(['POST'])
