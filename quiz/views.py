@@ -7,6 +7,9 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from django.http import HttpResponse
 from .models import Quiz, Question, Answer, QuizAttempt, UserResponse
 from .serializers import  (QuizListSerializer, QuizDetailSerializer, QuizCreateSerializer,QuestionSerializer, QuestionCreateSerializer,QuizAttemptSerializer, SubmitAnswerSerializer, UserSerializer)
@@ -16,6 +19,18 @@ from .permissions import IsCreatorOrReadOnly, CanTakeQuiz, IsAttemptOwner
 def home(request):
     return HttpResponse("Welcome to QuizRave API")
 
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'auth': {
+            'register': reverse('register', request=request, format=format),
+            'login': reverse('login', request=request, format=format),
+            'logout': reverse('logout', request=request, format=format),
+        },
+        'quizzes': reverse('quiz-list-create', request=request, format=format),
+        'my-quizzes': reverse('my-quizzes', request=request, format=format),
+        'my-attempts': reverse('my-attempts', request=request, format=format),
+    })
 
 # Authentication Views
 @api_view(['POST'])
