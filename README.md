@@ -31,7 +31,7 @@ A Django REST Framework-based quiz application that allows users to create, mana
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone <https://github.com/Enaibs99/QuizRaveAPI-Alx_Capstone_Project.git>
    cd QuizRaveAPI
    ```
 
