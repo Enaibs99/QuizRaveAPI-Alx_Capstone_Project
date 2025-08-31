@@ -121,8 +121,8 @@ curl -X POST http://localhost:8000/api/auth/register/ \
 curl -X POST http://localhost:8000/api/auth/login/ \
   -H "Content-Type: application/json" \
   -d '{
-    "username": "johndoe",
-    "password": "securepass123"
+    "username": "testuser",
+    "password": "testpass123"
   }'
 ```
 
@@ -132,8 +132,8 @@ Response:
   "token": "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b",
   "user": {
     "id": 1,
-    "username": "johndoe",
-    "email": "john@example.com"
+    "username": "testuser"
+    "email":"test@example.com"
   }
 }
 ```
