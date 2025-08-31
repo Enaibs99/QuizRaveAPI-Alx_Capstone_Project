@@ -16,3 +16,7 @@ class CanTakeQuiz(permissions.BasePermission):
         # Check if user has exceeded max attempts
         user_attempts = obj.attempts.filter( user=request.user, completed_at__isnull=False).count()
         return user_attempts < obj.max_attempts
+
+class IsAttemptOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user

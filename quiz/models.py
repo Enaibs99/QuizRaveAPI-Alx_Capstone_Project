@@ -99,6 +99,7 @@ class UserResponse(models.Model):
     attempt = models.ForeignKey(QuizAttempt, on_delete=models.CASCADE, related_name='responses')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     selected_answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True, blank=True)
+    answered_at = models.DateTimeField(auto_now_add=True)
     text_answer = models.TextField(blank=True)  # For short answer questions
     is_correct = models.BooleanField(null=True)  # Calculated field
 
