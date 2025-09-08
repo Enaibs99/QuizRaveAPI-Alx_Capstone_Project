@@ -218,7 +218,7 @@ curl -X POST http://localhost:8000/api/attempts/1/complete/ \
 
 ### Project Structure
 ```
-QuizRaveAPI/
+QuizRaveAPI-Alx Capstone Project/
 ├── manage.py
 ├── QuizRaveAPI/
 │   ├── __init__.py
@@ -313,11 +313,3 @@ DATABASE_URL=your-database-url
 - Use DRF browsable API: Visit endpoints in browser
 - Use Postman or similar tools for API testing
 - Check Django admin panel for data verification
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For support or questions, please open an issue in the GitHub repository.
