@@ -1,4 +1,4 @@
-# QuizRave API
+# QuizRaveAPI-Alx Capstone Project
 
 A Django REST Framework-based quiz application that allows users to create, manage, and take quizzes with real-time scoring and progress tracking.
 
